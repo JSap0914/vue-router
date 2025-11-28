@@ -1,12 +1,14 @@
 <template>
-  <div
-    class="main-container"
-    :class="{ 'has-top-banner': showTopBanner }"
-  >
-    <BannerTop
-      v-if="showTopBanner"
-      @close="closeBannerTop"
-    />
+  <div class="main-container" :class="{ 'has-top-banner': showTopBanner }">
+    <div id="v3-banner">
+      <span class="hidden-sm"
+        >Vue Router 3 has reached EOL and is no longer actively
+        maintained.</span
+      >
+      <a href="https://router.vuejs.org/">Upgrade to Vue Router 4</a>
+    </div>
+
+    <BannerTop v-if="showTopBanner" @close="closeBannerTop" />
     <ParentLayout>
       <template #page-top>
         <CarbonAds
@@ -47,7 +49,8 @@
             target="_blank"
             rel="noopener"
             alt="Your logo here"
-          >Become a Sponsor!</a>
+            >Become a Sponsor!</a
+          >
         </div>
       </template>
 
@@ -82,32 +85,33 @@ export default {
     ParentLayout,
     CarbonAds,
     BuySellAds,
-    BannerTop: () => import('./components/VueSchool/BannerTop.vue')
+    BannerTop: () => import('./components/VueSchool/BannerTop.vue'),
   },
   data() {
     return {
       sponsors,
-      showTopBanner: false
+      showTopBanner: false,
     }
   },
-  mounted () {
+  mounted() {
     const now = new Date()
     const end = new Date('2022-05-04T00:00:00+02:00')
-    this.showTopBanner = !localStorage.getItem('VS_FW_22_BANNER_CLOSED') && (now < end)
+    this.showTopBanner =
+      !localStorage.getItem('VS_FW_22_BANNER_CLOSED') && now < end
   },
   methods: {
-    closeBannerTop () {
+    closeBannerTop() {
       this.showTopBanner = false
       localStorage.setItem('VS_FW_22_BANNER_CLOSED', 1)
-    }
-  }
+    },
+  },
 }
 </script>
 
 <style>
 @media screen and (max-width: 1300px) {
   .content__default::before {
-    content: "";
+    content: '';
     /* background-color: red; */
     position: relative;
     display: block;
@@ -122,8 +126,40 @@ export default {
   }
 }
 
+@media screen and (max-width: 900px) {
+  #v3-banner .hidden-sm {
+    display: none;
+  }
+}
+
 img {
   max-width: 100%;
+}
+
+#v3-banner {
+  background-color: #ffb731;
+  width: 100%;
+  min-height: 40px;
+  padding: 10px 60px;
+  z-index: 19;
+  box-sizing: border-box;
+  text-align: center;
+  color: #333;
+
+  top: 0;
+  position: fixed;
+}
+
+#v3-banner a {
+  color: #34495e;
+  font-weight: bold;
+}
+
+header.navbar,
+aside.sidebar,
+main.page,
+main.home {
+  margin-top: 40px;
 }
 </style>
 
